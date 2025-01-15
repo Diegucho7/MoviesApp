@@ -1,5 +1,5 @@
-import { View, Text, FlatList } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
+import { useRef, useEffect } from 'react'
 import { Movie } from '@/infrastructure/interfaces/movie.iterface'
 import MoviePoster from './MoviePoster';
 
@@ -8,9 +8,36 @@ interface Props {
     title?: string
     movies: Movie[];
     className?: string;
+
+    loadNextPage?: () => void;
 }
 
-const MovieHorizontalList = ({ title, movies, className }: Props) => {
+const MovieHorizontalList = ({ title, movies, className, loadNextPage }: Props) => {
+
+    const isLoading = useRef(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            isLoading.current = false
+        }, 200);
+    }, [movies])
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        if (isLoading.current) return;
+
+        const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
+        const isEnReachEnd =
+            (contentOffset.x + layoutMeasurement.width + 600) >= contentSize.width;
+        if (!isEnReachEnd) return;
+
+        isLoading.current = true;
+
+        //
+        console.log('cargar las siguientes peliculas');
+        loadNextPage && loadNextPage();
+
+    };
+
+
     return (
         <View className={`${className}`}>
             {
@@ -20,8 +47,11 @@ const MovieHorizontalList = ({ title, movies, className }: Props) => {
                 showsHorizontalScrollIndicator={false}
                 horizontal
                 data={movies}
-                renderItem={({ item }) => <MoviePoster id={item.id} poster={item.poster} smallPoster />}
-                keyExtractor={(item) => `${item.id}`}
+                renderItem={({ item }) => (
+                    <MoviePoster id={item.id} poster={item.poster} smallPoster />
+                )}
+                onScroll={onScroll}
+                keyExtractor={(item, i) => `${item.id}-${i}`}
             />
         </View>
     )

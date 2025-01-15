@@ -12,7 +12,6 @@ export const popularMoviesAction = async () => {
 
         const movies = data.results.map(MovieMapper.fromTheMovieDBToMovie);
 
-        console.log(JSON.stringify(movies, null, 2));
         return movies
 
     } catch (error) {
