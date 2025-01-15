@@ -10,3 +10,11 @@ export interface Movie {
     rating: number;
 
 }
+
+export interface CompleteMovie extends Movie {
+    genres: string[];
+    duration: number;
+    budget: number;
+    originalTitle: string;
+    productionCompanies: string[];
+}

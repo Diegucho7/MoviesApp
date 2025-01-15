@@ -1,5 +1,5 @@
 import { movieApi } from "@/core/api/movie_api";
-import { MoviesDBMoviesResponse } from '../../../infrastructure/interfaces/moviedb-response';
+import { MoviesDBMoviesResponse } from '../../../infrastructure/interfaces/moviedb.response';
 import { MovieMapper } from "@/infrastructure/mappers/movie.mapper";
 
 
