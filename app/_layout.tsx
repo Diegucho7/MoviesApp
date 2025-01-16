@@ -9,6 +9,7 @@ import {
 
 import { nowPlayingAction } from '@/core/actions/movies/now-playing.action'
 import { Stack } from 'expo-router'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 const queryClient = new QueryClient()
 
@@ -20,16 +21,21 @@ const RootLayout = () => {
 
   return (
 
-    <QueryClientProvider client={queryClient}>
+    <GestureHandlerRootView>
 
-      <Stack
-        screenOptions={{
-          headerShown: false
-        }
-        }
-      />
 
-    </QueryClientProvider>
+
+      <QueryClientProvider client={queryClient}>
+
+        <Stack
+          screenOptions={{
+            headerShown: false
+          }
+          }
+        />
+
+      </QueryClientProvider>
+    </GestureHandlerRootView>
 
   )
 }

@@ -35,4 +35,8 @@ export class MovieMapper {
             duration: movieDB.runtime
         }
     }
+
+
+
 }
+
